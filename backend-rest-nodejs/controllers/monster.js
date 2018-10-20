@@ -2,6 +2,7 @@
 
 var Monster = require('../models/monster');
 var fs = require('fs');
+var path = require('path')
 
 var dateNow = () => {
     var dt = new Date();
@@ -27,7 +28,7 @@ var controller = {
 
     newMonster: function(req, res){
         var monster = new Monster();
-        console.log(dateNow(), "| POST /new-monster | ", req.query);
+        console.log(dateNow(), "| POST /new-monster | ", req.body);
 
         try{
             if(req != null && req.body != null){
@@ -76,7 +77,7 @@ var controller = {
     },
 
     allMonsters: function(req, res){
-        console.log(dateNow(), `| GET /all-monsters | "`, req.query);
+        console.log(dateNow(), `| GET /all-monsters | `, req.query);
 
         Monster.find({}).sort('+strength').exec((err, monsters) => {
             if(err) return res.status(500).send({message:"Error al devolver datos."});
@@ -92,7 +93,7 @@ var controller = {
         var id = req.params.id
         var update = req.body;
 
-        console.log(dateNow(), `| PUT /update-monster/${id} | "`, req.query);
+        console.log(dateNow(), `| PUT /update-monster/${id} | "`, req.params);
 
         Monster.findByIdAndUpdate(id, update, {new:true}, (err, monsterUpdated) => {
             if(err) return res.status(500).send({message:"Error al actualizar datos."});
@@ -107,7 +108,7 @@ var controller = {
     deleteMonster: function(req, res){
 
         var id = req.params.id
-        console.log(dateNow(), `| DELETE /delete-monster/${id} | "`, req.query);
+        console.log(dateNow(), `| DELETE /delete-monster/${id} | "`, req.params);
 
         Monster.findByIdAndDelete(id, (err, monsters) => {
             if(err) return res.status(500).send({message:"Error al eliminar el monstruo."});
@@ -122,6 +123,8 @@ var controller = {
     uploadSprite: function(req, res){
         var id = req.params.id;
         var fileSprite = "Imagen not found";
+
+        console.log(dateNow(), `| POST /upload-sprite/${id} | "`, req.body);
 
         if(req.files){
             var filePath = req.files.image.path;
@@ -141,7 +144,7 @@ var controller = {
             } else {
                 //Con fileSystem no subimos imagenes.
                 fs.unlink(filePath, (err) => {
-                    res.status(200).send({message: "Formato incorrecto"})
+                    res.status(400).send({message: "Formato incorrecto"})
                 })
             }
         }else{
@@ -149,6 +152,22 @@ var controller = {
                 message: fileSprite
             })
         }
+    },
+
+    getImageFile: function(req, res){
+        console.log(dateNow(), `| GET /sprite/ | "`, req.params);
+        var file = req.params.image;
+        var path_file = "./sprites/"+file;
+
+        fs.exists(path_file, (exists) => {
+            if(exists){
+                return res.sendFile(path.resolve(path_file));
+            }else{
+                return res.status(400).send({
+                    message: "No existe la imagen..."
+                })
+            }
+        })
     }
 };
 

@@ -1,3 +1,42 @@
-<p>
-  all-monsters works!
-</p>
+<div class="container mt-3">
+    <h1>Lista de monstruos</h1>
+    <p>Sed laborum enim quia earum molestiae autem et voluptatibus nemo.</p>
+    <div class="alert alert-success" *ngIf="alertOK">
+        <strong>¡Hecho!</strong> {{mensajeAlert}}.
+    </div>
+    <div class="alert alert-danger" *ngIf="alertKO">
+        <strong>¡Algo no esta bien!</strong> {{mensajeAlert}}.
+    </div>
+    <a *ngIf="!carga" class="btn btn-success text-white mb-2 mt-2" [routerLink]="['/nuevo-monstruo']">Añadir</a>
+    <!-- Cartas de cada monstruo -->
+    <div *ngIf="carga" style="text-align: center" class="mt-5" [innerHTML]="carga"></div>
+    <div class="row container">
+        <div *ngFor="let monster of monsters" class="card mr-1 col-12 col-md-6 col-lg-3 mb-2" style="width: 18rem;">
+            <img class="card-img-top" [src]="urlImage + monster.sprite" alt="Card image cap" *ngIf="monster.sprite">
+            <div class="card-body">
+                <h5 class="card-title">{{monster.name}}</h5>
+                <p class="card-text">{{monster.description}}</p>
+            </div>
+            <div>
+                <span class="ml-1 mb-1 badge badge-pill badge-success" *ngFor="let type of monster.type">{{ type.toUpperCase() }}</span>
+            </div>
+            <button type="button" class="btn btn-primary mb-3 mt-3" (click)="openModal(template,monster)">Editar Monster</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- MODAL -->
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Editar</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-edit-monster (ok)="respOK($event)" (ko)="respKO($event)" [monster]="monsterToEdit"></app-edit-monster>
+    </div>
+</ng-template>

@@ -18,5 +18,7 @@ router.get('/all-monsters', MonsterController.allMonsters)
 router.put('/update-monster/:id', MonsterController.updateMonster)
 router.delete('/delete-monster/:id', MonsterController.deleteMonster)
 router.post('/upload-sprite/:id', multipartMiddleware , MonsterController.uploadSprite)
+router.get('/image/:image', MonsterController.getImageFile)
+
 
 module.exports = router;
