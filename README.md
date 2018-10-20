@@ -25,8 +25,16 @@ Guardar imagenes en el servidor y recogerlas desde el servidor.
 
 - 'npm start' para arrancar la ApiRest (en su carpeta)
 
+```node
+cd backend-rest-nodejs
+npm i
+npm start
+```
 - ng serve -o para el frontal de Angular (en su carpeta)
-
+```node
+cd pocket-monsters
+ng serve -o
+```
 ---
 
 ## El componente de editar y crear son el mismo, se diferencias si se le ha pasado con @Input ya un registro para poder editar o no, si pulsamos el botón "editar Monster", se desplegará en un modal con datos rellenos y si pulsamos "Añadir" se abrirá en otra vista.
