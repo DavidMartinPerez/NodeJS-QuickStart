@@ -19,8 +19,32 @@ Guardar imagenes en el servidor y recogerlas desde el servidor.
 
 -----
 # Arrancar el proyecto
+
+## Dos opciones
+
+## Desde local solo levantando NodeJS y MongoDB
+Podemos levantar solo el servidor node y la base de datos
+Y trabajar con el frontal subido en github en esta URL:
+## https://davidmartinperez.github.io/apps/pocket-monsters/
+
+Para lanzar MongoDB
+````
+C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe
+````
+Lanzar la api rest
+```node
+cd backend-rest-nodejs
+npm i
+npm start
+```
+## Levantando todo en local
+
 - Tendremos que tener instalado MongoDB y creado una BBDD llamada 'pocketMonster' con una colección llamada 'monsters', el fichero de la BBDD esta en la carpeta /mongodb/... , mis BBDD estan en el puerto :27017, puerto por defecto.
 
+Para lanzar MongoDB
+````
+C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe
+````
 - 'npm i' para las dependencias tanto en /backend-rest-nodejs como en /pocket-monsters.
 
 - 'npm start' para arrancar la ApiRest (en su carpeta)
